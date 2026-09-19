@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Hospital {
+  id                Int              @id @default(autoincrement())
+  name              String
+  address           String
+  latitude          Float
+  longitude         Float
+  emergencyServices String
+  specialties       String
+  traumaAvailable   Boolean
+  icuAvailable      Boolean
+  contactName       String
+  username          String           @unique
+  password          String
+  responses         HospitalResponse[]
+}
+
+model Ambulance {
+  id              Int    @id @default(autoincrement())
+  ambulanceNumber String @unique
+  driverName      String
+  latitude        Float
+  longitude       Float
+}
+
+model EmergencyRequest {
+  id                 String            @id
+  ambulanceId        String
+  patientName        String
+  patientAge         Int
+  patientGender      String
+  emergencyType      String
+  description        String
+  bloodGroup         String?
+  createdAt          DateTime          @default(now())
+  selectedHospitalId Int?
+  status             String            @default("CREATED")
+  responses          HospitalResponse[]
+}
+
+model HospitalResponse {
+  id                Int              @id @default(autoincrement())
+  emergencyRequestId String
+  hospitalId        Int
+  status            String
+  requestedAt       DateTime         @default(now())
+  respondedAt       DateTime?
+  emergency         EmergencyRequest @relation(fields: [emergencyRequestId], references: [id])
+  hospital          Hospital         @relation(fields: [hospitalId], references: [id])
+}

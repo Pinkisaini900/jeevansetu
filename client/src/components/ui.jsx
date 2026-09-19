@@ -1,0 +1,11 @@
+import { Loader2 } from 'lucide-react';
+const C = { REQUESTED: 'bg-amber-50 text-amber-700 border-amber-200', ACCEPTED: 'bg-emerald-50 text-emerald-700 border-emerald-200', DECLINED: 'bg-red-50 text-red-700 border-red-200', SELECTED: 'bg-indigo-700 text-white border-indigo-700', CLOSED: 'bg-slate-100 text-slate-500 border-slate-200' };
+const L = { REQUESTED: 'Awaiting Response', ACCEPTED: 'Accepted', DECLINED: 'Declined', SELECTED: 'Confirmed', CLOSED: 'Closed' };
+export const Badge = ({ s }) => <span className={`inline-flex rounded-full border px-2.5 py-0.5 text-xs font-semibold ${C[s]}`}>{L[s] || s}</span>;
+export const Btn = ({ className = '', ...p }) => <button {...p} className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 ${className}`} />;
+export const Card = ({ className = '', ...p }) => <div {...p} className={`rounded-2xl border border-slate-200 bg-white p-5 ${className}`} />;
+export const Busy = () => <div className="flex justify-center p-10" role="status"><Loader2 className="animate-spin text-indigo-700" /></div>;
+export const Err = ({ m }) => m ? <div role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{m}</div> : null;
+export const primary = 'bg-indigo-700 text-white hover:bg-indigo-800';
+export const ghost = 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50';
+export const inp = 'w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-200';
