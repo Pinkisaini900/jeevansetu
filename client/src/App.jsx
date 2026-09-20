@@ -18,5 +18,5 @@ export default function App() {
       <Route path="/" element={<Landing />} /><Route path="/emergency" element={<Emergency />} />
       <Route path="/emergency/:id/hospitals" element={<Hospitals />} /><Route path="/track/:id" element={<Track />} />
       <Route path="/hospital" element={<HospitalDashboard />} /><Route path="/qr" element={<QrPage />} /></Routes></main>
-    <footer className="mx-auto max-w-5xl px-4 pb-8 text-xs text-slate-500">Hackathon prototype. Demo data only. Not a medical device, not medically certified, not production-ready.</footer></>;
+    <footer className="mx-auto max-w-5xl px-4 pb-8 text-xs text-slate-500">Hackathon prototype. Demo data only.</footer></>;
 }

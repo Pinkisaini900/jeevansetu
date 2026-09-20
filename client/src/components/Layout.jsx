@@ -4,12 +4,16 @@ import { Siren } from 'lucide-react';
 
 export function Logo({ className = '' }) {
   return (
-    <Link to="/" className={`inline-flex items-center gap-2.5 ${className}`} aria-label="JeevanSetu home">
-      <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true">
-        <rect width="32" height="32" rx="9" fill="#3730a3" />
-        <path d="M15 8h2v7h7v2h-7v7h-2v-7H8v-2h7z" fill="#fff" />
-      </svg>
-      <span className="text-xl font-extrabold tracking-tight text-ink">JeevanSetu</span>
+    <Link
+      to="/"
+      className={`inline-flex items-center ${className}`}
+      aria-label="JeevanSetu home"
+    >
+      <img
+        src="/logo.png"
+        alt="JeevanSetu"
+        className="h-10 w-auto object-contain"
+      />
     </Link>
   );
 }

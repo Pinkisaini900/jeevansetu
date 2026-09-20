@@ -76,7 +76,7 @@ export default function Landing() {
           </p>
 
           {/* ACTION BUTTONS */}
-<div className="mt-5 flex flex-col items-center gap-3 -translate-x-22">
+<div className="mt-5 flex flex-col items-center gap-3 -translate-x-2 md:-translate-x-14">
 
   {/* Main buttons */}
   <div className="flex items-center justify-center gap-3">
