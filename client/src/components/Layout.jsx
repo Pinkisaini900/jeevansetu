@@ -27,9 +27,7 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      <div className="no-print bg-ink px-4 py-1.5 text-center text-xs font-medium text-indigo-100">
-        Hackathon prototype. Hospitals, ambulances and patients shown here are fictional demo data. Not a medical device.
-      </div>
+      
       <header className="no-print sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Logo />
