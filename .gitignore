@@ -3,3 +3,5 @@ node_modules
 server/.env
 server/prisma/dev.db*
 client/dist
+
+.vercel

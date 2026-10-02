@@ -1,10 +1,79 @@
-import { useEffect, useState } from 'react'; import QRCode from 'qrcode'; import { api, call } from '../api'; import { Card, Busy, Err } from '../components/ui';
-export default function QrPage() {
-  const [list, setL] = useState(null), [err, setErr] = useState('');
-  useEffect(() => { call(api.get('/ambulances')).then(async a => setL(await Promise.all(a.map(async x => { const url = `${location.origin}/emergency?ambulance=${x.ambulanceNumber}`; return { ...x, url, img: await QRCode.toDataURL(url, { width: 220, margin: 1, color: { dark: '#1e1b4b' } }) }; })))).catch(e => setErr(e.message)); }, []);
-  return <div><h1 className="text-2xl font-bold">Ambulance QR codes</h1><p className="mb-4 text-sm text-slate-600">Each ambulance has its own code. To scan with a phone, open this app via your computer's LAN address (same Wi-Fi).</p>
-    <Err m={err} />{!list && !err && <Busy />}
-    <div className="grid gap-4 sm:grid-cols-3">{list?.map(a => <Card key={a.id} className="text-center"><img src={a.img} alt={`QR for ${a.ambulanceNumber}`} className="mx-auto" /><div className="mt-2 font-semibold">Ambulance ID: {a.ambulanceNumber}</div><a href={a.url} className="text-sm text-indigo-700 underline">Open emergency page</a></Card>)}</div></div>;
+import { useEffect, useState } from 'react';
+import QRCode from 'qrcode';
+import { Card } from '../components/ui';
+
+const ambulances = [
+  { id: 1, ambulanceNumber: 'JS101' },
+  { id: 2, ambulanceNumber: 'JS102' },
+  { id: 3, ambulanceNumber: 'JS103' }
+];
+
+function QrPage() {
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    async function generateQRs() {
+      const generated = [];
+
+      for (const ambulance of ambulances) {
+        const url =
+          window.location.origin +
+          '/emergency?ambulance=' +
+          ambulance.ambulanceNumber;
+
+        const img = await QRCode.toDataURL(url, {
+          width: 220,
+          margin: 1
+        });
+
+        generated.push({
+          id: ambulance.id,
+          ambulanceNumber: ambulance.ambulanceNumber,
+          url: url,
+          img: img
+        });
+      }
+
+      setList(generated);
+    }
+
+    generateQRs();
+  }, []);
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold">
+        Ambulance QR Codes
+      </h1>
+
+      <p className="mb-4 text-sm text-slate-600">
+        Scan an ambulance QR code to start emergency assistance.
+      </p>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        {list.map((ambulance) => (
+          <Card key={ambulance.id} className="text-center">
+            <img
+              src={ambulance.img}
+              alt={'QR for ' + ambulance.ambulanceNumber}
+              className="mx-auto"
+            />
+
+            <div className="mt-2 font-semibold">
+              Ambulance ID: {ambulance.ambulanceNumber}
+            </div>
+
+            <a
+              href={ambulance.url}
+              className="text-sm text-indigo-700 underline"
+            >
+              Open emergency page
+            </a>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-
+export default QrPage;

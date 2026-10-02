@@ -225,6 +225,10 @@ export async function setPreparation(responseId, hospitalId, prepStatus) {
   return broadcast(r.emergencyRequestId);
 }
 
+
+
+
+
 /* ---------- hospital dashboard ---------- */
 
 export async function hospitalRequests(hospitalId) {
@@ -325,6 +329,83 @@ export async function startMovement(emergencyId) {
   sims.set(emergencyId, { timer, ambulanceId: amb.id });
   return { running: true };
 }
+
+
+/* ---------- real GPS tracking ---------- */
+
+export async function updateAmbulanceLocation(
+  emergencyId,
+  latitude,
+  longitude
+) {
+  const em = await prisma.emergencyRequest.findUnique({
+    where: { id: emergencyId },
+    include: {
+      ambulance: true,
+      selectedHospital: true,
+    },
+  });
+
+  if (!em) {
+    throw new HttpError(404, 'Emergency not found.');
+  }
+
+  if (!em.selectedHospital) {
+    throw new HttpError(
+      409,
+      'Confirm a hospital before sending ambulance location.'
+    );
+  }
+
+  const ambulance = await prisma.ambulance.update({
+    where: { id: em.ambulance.id },
+    data: {
+      latitude,
+      longitude,
+    },
+  });
+
+  const hospital = em.selectedHospital;
+
+  const location = {
+    emergencyId,
+    latitude,
+    longitude,
+    ...metrics(
+      { latitude, longitude },
+      hospital
+    ),
+    arrived: metrics(
+      { latitude, longitude },
+      hospital
+    ).distanceKm < 0.1,
+  };
+
+  if (location.arrived && em.status !== 'ARRIVED') {
+    await prisma.emergencyRequest.update({
+      where: { id: emergencyId },
+      data: { status: 'ARRIVED' },
+    });
+  }
+
+  emitToEmergency(
+    emergencyId,
+    'ambulance:location',
+    location
+  );
+
+  emitToHospital(
+    hospital.id,
+    'ambulance:location',
+    location
+  );
+
+  return {
+    ambulance: pos(ambulance),
+    ...location,
+  };
+}
+
 
 /* ---------- dashboard stats ---------- */
 

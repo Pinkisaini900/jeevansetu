@@ -46,3 +46,23 @@ export const selectHospital = wrap(async (req, res) => {
 export const simulateResponses = wrap(async (req, res) => send(res, await svc.simulateResponses(req.params.id)));
 export const simulateMovement = wrap(async (req, res) => send(res, await svc.startMovement(req.params.id)));
 export const stats = wrap(async (_req, res) => send(res, await svc.getStats()));
+
+
+
+const locationSchema = z.object({
+  latitude: z.coerce.number().min(-90).max(90),
+  longitude: z.coerce.number().min(-180).max(180),
+});
+
+export const updateLocation = wrap(async (req, res) => {
+  const { latitude, longitude } = parse(locationSchema, req.body);
+
+  send(
+    res,
+    await svc.updateAmbulanceLocation(
+      req.params.id,
+      latitude,
+      longitude
+    )
+  );
+});

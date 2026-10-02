@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JeevanSetu Emergency QR</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: #0b0b0b;
+      color: white;
+    }
+
+    .container {
+      text-align: center;
+      background: #171717;
+      padding: 40px;
+      border-radius: 20px;
+      width: 360px;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #aaa;
+    }
+
+    #qrcode {
+      background: white;
+      padding: 15px;
+      display: inline-block;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .ambulance {
+      color: #ff3333;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+```
+<h1>JeevanSetu</h1>
+
+<p>Emergency Ambulance QR</p>
+
+<div class="ambulance">
+  Ambulance: JS104
+</div>
+
+<div id="qrcode"></div>
+
+<p>Scan to start emergency assistance</p>
+```
+
+  </div>
+
+  <script>
+
+    // CHANGE THIS AFTER DEPLOYMENT
+   const emergencyURL =
+  "https://jeevansetu-iota.vercel.app/emergency?ambulance=JS104";
+    new QRCode(document.getElementById("qrcode"), {
+      text: emergencyURL,
+      width: 250,
+      height: 250,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+  </script>
+
+</body>
+</html>

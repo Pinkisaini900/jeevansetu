@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {"source": "/ambulance-gps", 
+    "destination": "/index.html"
+  },
+
+    {
+      "source": "/emergency",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/emergency/:id/hospitals",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/track/:id",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/hospital",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/qr",
+      "destination": "/index.html"
+    }
+  ]
+}

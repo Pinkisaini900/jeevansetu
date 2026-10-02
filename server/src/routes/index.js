@@ -13,6 +13,7 @@ router.post('/emergency', emergency.create);
 router.get('/hospitals/nearby', emergency.nearby);
 router.post('/emergency/:id/request', emergency.requestHospitals);
 router.get('/emergency/:id/status', emergency.status);
+router.post('/emergency/:id/location', emergency.updateLocation);
 router.post('/emergency/:id/select-hospital', emergency.selectHospital);
 router.get('/ambulances', ambulance.list);
 router.get('/ambulance/:id', ambulance.get);
