@@ -18,8 +18,39 @@ export default function Emergency() {
     [k]: e.target.value
   }));
 };
-  const submit = async e => { e.preventDefault(); if (!f.emergencyType) return setErr('Choose a suspected emergency type'); setBusy(true); setErr('');
-    try { nav(`/emergency/${(await call(api.post('/emergency', f))).id}/hospitals`); } catch (x) { setErr(x.message); setBusy(false); } };
+  const submit = async e => {
+  e.preventDefault();
+
+  if (!f.emergencyType) {
+    return setErr('Choose a suspected emergency type');
+  }
+
+  setBusy(true);
+  setErr('');
+
+  const typeMap = {
+    'Accident / Trauma': 'TRAUMA',
+    'Cardiac': 'CARDIAC',
+    'Stroke': 'STROKE',
+    'Respiratory': 'RESPIRATORY',
+    'Pregnancy': 'PREGNANCY',
+    'Burns': 'BURNS',
+    'Severe Bleeding': 'BLEEDING',
+    'Other': 'OTHER'
+  };
+
+  const payload = {
+    ...f,
+    emergencyType: typeMap[f.emergencyType]
+  };
+
+  try {
+    nav(`/emergency/${(await call(api.post('/emergency', payload))).id}/hospitals`);
+  } catch (x) {
+    setErr(x.message);
+    setBusy(false);
+  }
+};
   
   return <form onSubmit={submit} className="mx-auto max-w-xl space-y-4">
     <h1 className="text-2xl font-bold">Emergency information</h1>
