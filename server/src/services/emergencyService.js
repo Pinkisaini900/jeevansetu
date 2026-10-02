@@ -46,7 +46,7 @@ export async function createEmergency(data) {
   return prisma.emergencyRequest.create({
     data: {
       id: newEmergencyId(),
-      ambulanceId: ambulance.id,
+      ambulanceId: ambulance.ambulanceNumber,
       patientName: data.patientName,
       patientAge: data.patientAge,
       patientGender: data.patientGender,
